@@ -58,7 +58,7 @@ function novac_woo_bootstrap() {
     if ( ! class_exists( 'Novac' ) ) {
         include_once dirname( NOVAC_WOO_PLUGIN_FILE ) . '/inc/class-novac.php';
         // Global for backwards compatibility.
-        $GLOBALS['budpay'] = NovacWoo::instance();
+        $GLOBALS['novac'] = NovacWoo::instance();
     }
 }
 
@@ -129,10 +129,10 @@ function novac_woo_add_extension_register_script() {
         'novac_admin_css',
         plugins_url( 'assets/admin/style/index.css', NOVAC_WOO_PLUGIN_FILE ),
         array(),
-        BUDPAY_VERSION
+        NOVAC_WOO_VERSION
     );
 
-    wp_enqueue_style( 'budpay_admin_css' );
+    wp_enqueue_style( 'novac_admin_css' );
 }
 
 add_action( 'admin_enqueue_scripts', 'novac_woo_add_extension_register_script' );
