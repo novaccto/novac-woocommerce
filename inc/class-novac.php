@@ -78,7 +78,7 @@ class Novac {
         $this->define( 'NOVAC_WOO_DIR_PATH', plugin_dir_path( NOVAC_WOO_PLUGIN_FILE ) );
         $this->define( 'NOVAC_WOO_MIN_WC_VER', '6.9.1' );
         $this->define( 'NOVAC_WOO_URL', trailingslashit( plugins_url( '/', NOVAC_WOO_PLUGIN_FILE ) ) );
-        $this->define( 'NOVAC_WOO_ALLOWED_WEBHOOK_IP_ADDRESS', '0.0.0.0');
+        $this->define( 'NOVAC_WOO_ALLOWED_WEBHOOK_IP_ADDRESS', '18.233.137.110');
         $this->define( 'NOVAC_WOO_EPSILON', 0.01 );
     }
 
@@ -126,7 +126,7 @@ class Novac {
         $this->register_novac_wc_page_items();
         $this->register_payment_gateway();
 
-        include_once NOVAC_WOO_PLUGIN_FILE . 'inc/rest-api/class-novac-settings-rest-controller.php';
+        include_once NOVAC_WOO_PLUGIN_DIR . 'inc/rest-api/class-novac-settings-rest-controller.php';
         $settings__endpoint = new Novac_Settings_Rest_Controller();
         add_action( 'rest_api_init', array( $settings__endpoint, 'register_routes' ) );
     }

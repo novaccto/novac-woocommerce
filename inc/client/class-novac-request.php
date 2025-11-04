@@ -95,6 +95,7 @@ class Novac_Request {
             'first_name' => $first_name,
             'last_name'  => $last_name,
             'description' => $description,
+            'tx_ref'     => $txnref,
         );
     }
 }

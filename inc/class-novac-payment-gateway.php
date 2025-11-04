@@ -355,7 +355,7 @@ class Novac_Payment_Gateway extends WC_Payment_Gateway {
             'method'  => 'POST',
             'headers' => array(
                 'Content-Type'  => 'application/json',
-                'Authorization' => 'Bearer ' . $this->get_secret_key(),
+                'Authorization' => 'Bearer ' . $this->get_public_key(),
             ),
             'body'    => $body,
         );
@@ -456,7 +456,7 @@ class Novac_Payment_Gateway extends WC_Payment_Gateway {
 
         wp_enqueue_script( 'jquery' );
 
-        $novac_inline_link = 'https://inlinepay.budpay.com/budpay-inline-custom.js';
+        $novac_inline_link = 'https://inlinepay.novac.com/novac-inline-custom.js';
 
         wp_enqueue_script( 'novac', $novac_inline_link, array( 'jquery' ), NOVAC_WOO_VERSION, false );
 
@@ -733,7 +733,7 @@ class Novac_Payment_Gateway extends WC_Payment_Gateway {
         $logger     = $this->logger;
         $sdk        = $this->sdk;
 
-        $merchant_secret_hash = hash_hmac( 'SHA512', $public_key, $secret_key );
+//        $merchant_secret_hash = hash_hmac( 'SHA512', $public_key, $secret_key );
 
         if ( NOVAC_WOO_ALLOWED_WEBHOOK_IP_ADDRESS !== $this->novac_get_client_ip() ) {
             $this->logger->info( 'Faudulent Webhook Notification Attempt [Access Restricted]: ' . (string) $this->novac_get_client_ip() );
@@ -774,7 +774,7 @@ class Novac_Payment_Gateway extends WC_Payment_Gateway {
 
         $this->logger->info( 'Webhook: ' . wp_json_encode( $event ) );
 
-        if ( 'transaction' === $event->notify ) {
+        if ( 'transaction' === $event->notify || 'banktransfer' === $event->notify ) {
             sleep( 2 );
             // phpcs:ignore
             $event_type = $event->notifyType;
@@ -816,7 +816,7 @@ class Novac_Payment_Gateway extends WC_Payment_Gateway {
              * @since 1.0.0
              */
             do_action( 'novac_webhook_after_action', wp_json_encode( $event, true ) );
-            $statuses_in_question = array( 'pending', 'on-hold', 'cancelled' );
+            $statuses_in_question = array( 'pending', 'on-hold', 'cancelled', 'reversed' );
             if ( 'failed' === $current_order_status ) {
                 // NOTE: customer must have tried to make payment again in the same session.
                 $statuses_in_question[] = 'failed';
@@ -849,7 +849,7 @@ class Novac_Payment_Gateway extends WC_Payment_Gateway {
 
                 $order->add_order_note( esc_html__( 'verifying the Payment on Novac...', 'novac-woo' ) );
 
-                $response = wp_safe_remote_request( $this->base_url . 'transaction/verify/:' . $txn_ref, $args );
+                $response = wp_safe_remote_request( $this->base_url . '/checkout/' . $txn_ref . '/verify', $args );
 
                 if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
                     // Request successful.
@@ -868,40 +868,29 @@ class Novac_Payment_Gateway extends WC_Payment_Gateway {
                             if ( $order instanceof WC_Order ) {
                                 $order->add_order_note( esc_html__( 'Payment Attempt Failed. Please Try Again.', 'novac-woo' ) );
                                 $admin_note = esc_html__( 'Customer Payment Attempt failed. Advise customer to try again with a different Payment Method', 'novac-woo' ) . '<br>';
-                                if ( count( $current_response->log->history ) !== 0 ) {
-                                    $last_item_in_history = $current_response->log->history[ count( $current_response->log->history ) - 1 ];
-                                    $message              = json_decode( $last_item_in_history->message, true );
-                                    $this->logger->error( 'Failed Customer Attempt Explanation for ' . $txn_ref . ':' . wp_json_encode( $message ) );
-                                    $reason = $message['error']['explanation'] ?? $message['errors'][0]['message'] ?? 'Unknown';
-                                    /* translators: %s: Reason */
-                                    $admin_note .= sprintf( __( 'Reason: %s', 'novac-woo' ), $reason );
-                                } else {
-                                    $admin_note .= esc_html__( 'Reason: Unknown', 'novac-woo' );
-                                }
+                                $admin_note .= esc_html__( 'Reason: Unknown', 'novac-woo' );
 
                                 $order->add_order_note( $admin_note );
                             }
                         }
 
-                        if ( 'failed' === $current_response->data->status ) {
+                        if ( 'failed' === $current_response->data->status || 'abandoned' === $current_response->data->status ) {
 
                             if ( $order instanceof WC_Order ) {
                                 $order->add_order_note( esc_html__( 'Payment Attempt Failed. Try Again', 'novac-woo' ) );
                                 $order->update_status( 'failed' );
                                 $admin_note = esc_html__( 'Payment Failed ', 'novac-woo' ) . '<br>';
-                                if ( count( $current_response->log->history ) !== 0 ) {
-                                    $last_item_in_history = $current_response->log->history[ count( $current_response->log->history ) - 1 ];
-                                    $message              = json_decode( $last_item_in_history->message, true );
-                                    $this->logger->error( 'Failed Customer Attempt Explanation for ' . $txn_ref . ':' . wp_json_encode( $message ) );
-                                    $reason = $message['error']['explanation'] ?? $message['errors'][0]['message'] ?? 'Non-Given';
-                                    /* translators: %s: Reason */
-                                    $admin_note .= sprintf( __( 'Reason: %s', 'novac-woo' ), $reason );
-
-                                } else {
-                                    $admin_note .= esc_html__( 'Reason: Non-Given', 'novac-woo' );
-                                }
+                                $admin_note .= esc_html__( 'Reason: Non-Given', 'novac-woo' );
                                 $order->add_order_note( $admin_note );
                             }
+                        }
+
+                        if ( 'reversed' === $current_response->data->status ) {
+                            $order->add_order_note( esc_html__( 'Payment Reversed. A new payment is required', 'novac-woo' ) );
+                            $order->update_status( 'pending' );
+                            $admin_note = esc_html__( 'Payment Reversed ', 'novac-woo' ) . '<br>';
+                            $admin_note .= esc_html__( 'Reason: Non-Given', 'novac-woo' );
+                            $order->add_order_note( $admin_note );
                         }
 
                         $success = true;

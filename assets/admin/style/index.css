@@ -1,0 +1,97 @@
+.novac-page-banner {
+    /* TODO: handle on small screens. */
+    background-image: url(https://www.novacpayment.com/uk/svg/hero.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right
+}
+
+.novac-page {
+    margin: 0 auto;
+
+    &.is-narrow {
+        max-width: 550px;
+    }
+
+    font-family: 'Sora', sans-serif !important;
+}
+
+.novac-page h2 {
+    font-size: 20px;
+    line-height: 28px;
+    margin: 0;
+}
+
+.bupay-page__heading {
+    padding: 24px 24px 0;
+}
+
+.novac-font-heading {
+    color: #0e073a;
+    font-size: 1.2rem;
+}
+
+img.novac__settings_logo {
+    margin-bottom: 2px;
+    width: 150px;
+    /* height: 24px; */
+}
+
+.novac-page__buttons {
+    padding: 24px;
+    margin-left: 15px;
+}
+
+.novac-page__sandbox-mode-panel .components-panel__body.is-opened,
+.novac-page__general_settings-panel .components-panel__body.is-opened,
+.novac-page__checkout_settings-panel .components-panel__body.is-opened
+{
+    padding: 24px;
+
+}
+
+.novac-page__general_settings-panel h2.components-panel__body-title button,
+.novac-page__checkout_settings-panel h2.components-panel__body-title button
+{
+    font-weight: bold;
+}
+
+.novac-page__general_settings-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: .5em;
+}
+
+.novac-settings-btn-center {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.novac-settings__inputs {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: stretch;
+    gap: 1.5em
+}
+
+.novac-settings-cta {
+    margin-top: 1em;
+    align-self: center;
+}
+
+.novac-webhook-instructions {
+    margin-top: 2em !important;
+    margin-bottom: .5em;
+    text-align: center !important;
+    /* font-weight: bold !important; */
+}
+
+.novac-webhook-link {
+    display: block;
+    text-align: center;
+    margin-top: 2em !important;
+    font-weight: bold !important;
+}

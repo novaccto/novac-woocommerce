@@ -1,0 +1,103 @@
+{
+  "name": "novac-woo",
+  "version": "1.0.0",
+  "description": "Novac for WooCommerce",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/novac/novac-woo.git"
+  },
+  "scripts": {
+    "postinstall": "composer install",
+    "prebuild": "pnpm install && composer install",
+    "build": " pnpm run preuglify && pnpm run uglify && composer run makepot && pnpm run build:webpack && pnpm run plugin-zip",
+    "build:webpack": "wp-scripts build",
+    "start": "pnpm run start:webpack",
+    "start:webpack": "rimraf build/* && wp-scripts start",
+    "preuglify": "rm -f $pnpm_package_config_assets_js_min",
+    "uglify": "for f in $pnpm_package_config_assets_js_js; do file=${f%.js}; node_modules/.bin/uglifyjs $f -c -m > $file.min.js; done",
+    "check-engines": "wp-scripts check-engines",
+    "check-licenses": "wp-scripts check-licenses",
+    "format": "wp-scripts format",
+    "plugin-zip": "wp-scripts plugin-zip",
+    "wp-env": "wp-env",
+    "prepare": "husky",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js"
+  },
+  "lint-staged": {
+    "*.js": [
+      "wp-scripts lint-js"
+    ],
+    "*.php": [
+      "composer run lint"
+    ],
+    "*.scss": [
+      "wp-scripts lint-style"
+    ]
+  },
+  "config": {
+    "wp_org_slug": "novac-woo",
+    "assets": {
+      "js": {
+        "min": "assets/js/*.min.js",
+        "js": "assets/js/*.js"
+      },
+      "styles": {
+        "css": "assets/css/*.css",
+        "sass": "assets/css/*.scss",
+        "cssfolder": "assets/css/"
+      }
+    }
+  },
+  "author": "Novac Devs",
+  "license": "ISC",
+  "files": [
+    "assets",
+    "i18n",
+    "build",
+    "languages",
+    "inc",
+    "novac-woo.php",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "changelog.txt",
+    "readme.txt"
+  ],
+  "devDependencies": {
+    "@automattic/color-studio": "^2.6.0",
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "@formatjs/icu-messageformat-parser": "^2.11.4",
+    "@svgr/cli": "^8.1.0",
+    "@woocommerce/dependency-extraction-webpack-plugin": "^4.0.0",
+    "@woocommerce/eslint-plugin": "^2.3.0",
+    "@wordpress/env": "^9.10.0",
+    "@wordpress/prettier-config": "^3.15.0",
+    "@wordpress/scripts": "^27.9.0",
+    "babel-loader": "^9.2.1",
+    "classnames": "^2.5.1",
+    "cross-env": "^7.0.3",
+    "css-loader": "^7.1.2",
+    "dotenv": "^16.6.1",
+    "husky": "^9.1.7",
+    "jshint": "^2.13.6",
+    "mini-css-extract-plugin": "^2.9.4",
+    "rimraf": "^5.0.10",
+    "sass": "^1.93.3",
+    "sass-loader": "^14.2.1",
+    "style-loader": "^4.0.0",
+    "uglify-js": "^3.19.3",
+    "webpack": "^5.102.1",
+    "webpack-cli": "^5.1.4",
+    "wp-textdomain": "^1.0.1"
+  },
+  "dependencies": {
+    "@automattic/interpolate-components": "^1.2.1",
+    "@mantine/core": "^7.17.8",
+    "@wordpress/icons": "^9.49.0",
+    "crypto-js": "^4.2.0"
+  },
+  "packageManager": "pnpm@10.20.0+sha512.cf9998222162dd85864d0a8102e7892e7ba4ceadebbf5a31f9c2fce48dfce317a9c53b9f6464d1ef9042cba2e02ae02a9f7c143a2b438cd93c91840f0192b9dd"
+}

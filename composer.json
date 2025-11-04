@@ -1,2 +1,39 @@
 {
+  "name": "novac/novac-woocommerce",
+  "description": "Novac for WooCommerce",
+  "type": "wordpress-plugin",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Novac\\Woocommerce\\": "inc/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Novac Devs"
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "scripts": {
+    "makepot-audit": [
+      "wp --allow-root i18n make-pot . --exclude=\".github,.wordpress-org,vendor,bin,node_modules,tests\" --slug=novac-woo --debug"
+    ],
+    "makepot": [
+      "@makepot-audit --skip-audit"
+    ]
+  },
+  "extra": {
+    "scripts-description": {
+      "makepot-audit": "Generate i18n/languages/novac-woo.pot file and run audit",
+      "makepot": "Generate i18n/languages/novac-woo.pot file"
+    }
+  },
+  "require-dev": {
+    "wp-coding-standards/wpcs": "^3.0",
+    "woocommerce/woocommerce-sniffs": "^1.0"
+  }
 }

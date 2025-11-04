@@ -75,11 +75,11 @@ This plugin integrates with external services to process payments and provide a 
    - **Data Sent**: The plugin sends transaction details, such as the amount, currency, and user-specific identifiers, to Novac's API endpoints.
      - **API Endpoint**: `https://api.novacpayment.com/api/v1/`
    - **When data is sent**:
-     - Data is sent to Budpay's API when a user initiates a payment.
+     - Data is sent to Novac's API when a user initiates a payment.
      - The inline script is loaded on the checkout page for payment functionality.
    - **Links**:
-     - [Budpay Terms of Service](https://www.novacpayment.com/uk/terms-of-use)
-     - [Budpay Privacy Policy](https://www.novacpayment.com/uk/privacy-policy)
+     - [Novac Terms of Service](https://www.novacpayment.com/uk/terms-of-use)
+     - [Novac Privacy Policy](https://www.novacpayment.com/uk/privacy-policy)
 
 = Contribution =
 

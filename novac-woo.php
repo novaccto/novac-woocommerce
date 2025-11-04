@@ -3,7 +3,7 @@
  * Plugin Name: Novac for WooCommerce
  * Plugin URI: https://developer.novacpayment.com
  * Description: This plugin is the official plugin of Novac.
- * Version: 0.0.1
+ * Version: 1.0.0
  * Author: Novac
  * Author URI: https://www.app.novacpayment.com
  * Developer: Novac Developers
@@ -58,7 +58,7 @@ function novac_woo_bootstrap() {
     if ( ! class_exists( 'Novac' ) ) {
         include_once dirname( NOVAC_WOO_PLUGIN_FILE ) . '/inc/class-novac.php';
         // Global for backwards compatibility.
-        $GLOBALS['novac'] = NovacWoo::instance();
+        $GLOBALS['novac'] = Novac::instance();
     }
 }
 

@@ -1,5 +1,6 @@
 node_modules/
 dist/
+build/
 vendor/
 .env
 .DS_Store
@@ -22,3 +23,4 @@ coverage/
 *.iml
 *.pyc
 .env.local
+*.zip
