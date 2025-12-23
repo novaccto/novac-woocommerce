@@ -105,7 +105,7 @@ class Novac_Payment_Gateway extends WC_Payment_Gateway {
     public function __construct() {
         $this->base_url           = 'https://api.novacpayment.com/api/v1/';
         $this->id                 = 'novac';
-        $this->icon               = plugins_url( 'assets/img/novac.png', NOVAC_WOO_PLUGIN_FILE );
+        $this->icon               = plugins_url( 'assets/img/logo.png', NOVAC_WOO_PLUGIN_FILE );
         $this->has_fields         = false;
         $this->method_title       = 'Novac';
         $this->method_description = 'Novac ' . __( 'allows you to receive payments in multiple currencies.', 'novac-woo' );
