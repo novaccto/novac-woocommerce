@@ -117,10 +117,10 @@ const NovacSettings = () => {
 
     const validateKey = (key, type) => {
         if (type === 'public') {
-            return key.startsWith('pk_live_') || key.startsWith('pk_test_');
+            return key.startsWith('nc_livepk_') || key.startsWith('nc_testpk_');
         }
         if (type === 'secret') {
-            return key.startsWith('sk_live_') || key.startsWith('sk_test_');
+            return key.startsWith('nc_livesk_') || key.startsWith('nc_testsk_');
         }
         return false;
     };
@@ -132,7 +132,7 @@ const NovacSettings = () => {
         const isValid = validateKey(value, 'secret');
         setErrors((prev) => ({
             ...prev,
-            live_secret_key: isValid ? '' : 'Invalid Secret Key. Must start with sk_live_',
+            live_secret_key: isValid ? '' : 'Invalid Secret Key. Must start with nc_livesk_',
         }));
     };
 
@@ -142,7 +142,7 @@ const NovacSettings = () => {
         const isValid = validateKey(value, 'public');
         setErrors((prev) => ({
             ...prev,
-            live_public_key: isValid ? '' : 'Invalid Public Key. Must start with pk_live_',
+            live_public_key: isValid ? '' : 'Invalid Public Key. Must start with nc_livepk_',
         }));
     };
 
@@ -157,7 +157,7 @@ const NovacSettings = () => {
         const isValid = validateKey(value, 'secret');
         setErrors((prev) => ({
             ...prev,
-            test_secret_key: isValid ? '' : 'Invalid Secret Key. Must start with sk_test_',
+            test_secret_key: isValid ? '' : 'Invalid Secret Key. Must start with nc_testsk_',
         }));
     };
 
@@ -167,7 +167,7 @@ const NovacSettings = () => {
         const isValid = validateKey(value, 'public');
         setErrors((prev) => ({
             ...prev,
-            test_public_key: isValid ? '' : 'Invalid Public Key. Must start with pk_test_',
+            test_public_key: isValid ? '' : 'Invalid Public Key. Must start with nc_livesk_',
         }));
     };
 

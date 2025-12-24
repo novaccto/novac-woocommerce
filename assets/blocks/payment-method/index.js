@@ -25,9 +25,9 @@ const NOVAC_ASSETS = getBlocksConfiguration()?.asset_url ?? null;
 const paymentMethod = {
     name: PAYMENT_METHOD_NAME,
     label: (
-        <div style={{ display: 'flex', flexDirection: 'row', rowGap: '0em', alignItems: 'center'}}>
+        <div style={{ display: 'flex', flexDirection: 'row', gap: '2em', alignItems: 'center'}}>
             <img
-                src={ `${NOVAC_ASSETS}/img/novac.png` }
+                src={ `${NOVAC_ASSETS}/img/logo.png` }
                 alt={ decodeEntities(
                     getBlocksConfiguration()?.title || __( 'Novac', 'novac-woo' )
                 ) }

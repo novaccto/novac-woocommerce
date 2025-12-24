@@ -326,7 +326,8 @@ class Novac_Payment_Gateway extends WC_Payment_Gateway {
         }
 
         $custom_nonce               = wp_create_nonce();
-        // $novac_request['callback'] = $novac_request['callback'] . '&_wpnonce=' . $custom_nonce;
+        $novac_request['callback'] = $novac_request['callback'] . '&_wpnonce=' . $custom_nonce;
+//        $test_callback              = 'https://h4ea8vpiy6.sharedwithexpose.com?wc-api=WC_Novac_Payment_Gateway&order_id='. $order_id .'&_wpnonce=' . $custom_nonce;
 
         // Initiate Communication with Novac.
 
@@ -334,6 +335,7 @@ class Novac_Payment_Gateway extends WC_Payment_Gateway {
                 'transactionReference' => $novac_request['tx_ref'],
                 'amount'      => $novac_request['amount'],
                 'currency'    => $novac_request['currency'] ?? 'NGN',
+                'redirectUrl' => $novac_request['callback'],
                 'checkoutCustomerData' => [
                         'email' => $novac_request['email'],
                         'firstName' => $novac_request['first_name'] ?? '',
