@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Novac for WooCommerce
+ * Plugin Name: Novac Woo
  * Plugin URI: https://developer.novacpayment.com
  * Description: This plugin is the official plugin of Novac.
  * Version: 1.0.0

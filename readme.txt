@@ -1,10 +1,10 @@
-=== Novac ===
+=== Novac Woo ===
 Contributors: engineeringnovac
 Tags: payments, mastercard, visa, woocommerce, commerce, storefront
 Requires at least: 6.0
-Tested up to: 6.7
+Tested up to: 6.9
 Requires PHP: 7.3
-Stable tag: 1.0.4
+Stable tag: 1.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Accept both international and local payments on from your store.
